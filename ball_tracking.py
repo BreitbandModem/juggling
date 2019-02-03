@@ -65,11 +65,11 @@ class Ball:
         for ball in cls.balls:
             ball.draw_ball(frame, 0)
 
-            for i in range(0, len(ball.positions)-1):
+            for i in range(0, len(ball.positions) - 1):
                 cv2.line(
                     frame,
                     (ball.positions[i].x, ball.positions[i].y),
-                    (ball.positions[i+1].x, ball.positions[i+1].y),
+                    (ball.positions[i + 1].x, ball.positions[i + 1].y),
                     cls.DRAW_COLOR,
                     cls.DRAW_THICKNESS
                 )
@@ -183,7 +183,7 @@ class VideoReader:
 
     WIDTH = 300
 
-    def __init__(self, source, rotate, processor):
+    def __init__(self, source, rotate, processor: Processor):
         self.parse_video(source, rotate, processor)
 
     def parse_video(self, source, rotate, processor):
