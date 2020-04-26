@@ -57,9 +57,15 @@ git clone git@github.com:BreitbandModem/juggling.git
 ```
 
 ## Build and Run Docker Image
+Manually build and run image
 ```bash
 cd ~/github/juggling
 docker build -t juggling:0.1 .
 docker images
 docker run -d -p 80:5000 -v /home/pi/github/juggling/app/webapp.py:/app.py juggling:0.1
+```
+
+Use automatic deploy script
+```bash
+ssh picam 'cd github/juggling/ && git pull origin master && ./deploy.sh'
 ```
