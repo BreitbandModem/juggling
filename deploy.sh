@@ -9,7 +9,7 @@ echo Stop and Delete old Container
 docker rm -f $containerName
 
 echo Run New Image
-docker run --rm \
+docker run -d \
   --privileged \
   -p 80:5000 \
   --device /dev/vchiq \
