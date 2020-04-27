@@ -1,4 +1,5 @@
 videos/
+__pycache__/
 *.img
 *.jpg
 .idea
