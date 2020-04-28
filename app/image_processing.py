@@ -1,30 +1,35 @@
 import cv2
 import io
 import time
-import picamera
+from picamera import PiCamera
+from picamera.array import PiRGBArray
 from base_camera import BaseCamera
 
 
 class CvCamera(BaseCamera):
     @staticmethod
     def frames():
-        with picamera.PiCamera() as camera:
-            # let camera warm up
-            time.sleep(2)
+        with PiCamera() as camera:
+            # initialize the camera and grab a reference to the raw camera capture
+            camera.resolution = (640, 480)
+            camera.framerate = 32
+            rawCapture = PiRGBArray(camera, size=(640, 480))
 
-            stream = io.BytesIO()
-            for _ in camera.capture_continuous(stream, 'jpeg',
-                                               use_video_port=True):
-                # return current frame
-                stream.seek(0)
-                cv2_image = cv2.imdecode(stream.read(), cv2.IMREAD_COLOR)
+            # let camera warm up
+            time.sleep(1)
+
+            # capture frames from the camera
+            for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+                # grab the raw NumPy array representing the image
+                raw_image = frame.array
+
+                cv2_image = cv2.imdecode(raw_image, cv2.IMREAD_COLOR)
 
                 # Do image processing
                 cv2.rotate(cv2_image, cv2.ROTATE_180)
 
-                image = cv2.imencode('.jpeg', cv2_image)
-                yield image
+                processed_image = cv2.imencode('.jpeg', cv2_image)
+                yield processed_image
 
-                # reset stream for next frame
-                stream.seek(0)
-                stream.truncate()
+                # clear the stream in preparation for the next frame
+                rawCapture.truncate(0)
