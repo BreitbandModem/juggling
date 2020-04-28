@@ -23,13 +23,11 @@ class CvCamera(BaseCamera):
                 # grab the raw NumPy array representing the image
                 raw_image = frame.array
 
-                cv2_image = cv2.imdecode(raw_image, cv2.IMREAD_COLOR)
-
                 # Do image processing
-                cv2.rotate(cv2_image, cv2.ROTATE_180)
+                cv2_image = cv2.rotate(raw_image, cv2.ROTATE_180)
 
-                processed_image = cv2.imencode('.jpeg', cv2_image)
-                yield processed_image
+                _, processed_image = cv2.imencode('.jpeg', cv2_image)
+                yield processed_image.tostring()
 
                 # clear the stream in preparation for the next frame
                 rawCapture.truncate(0)
