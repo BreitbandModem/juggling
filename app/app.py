@@ -36,7 +36,7 @@ def video_feed():
 @app.route('/processing_feed')
 def processing_feed():
     """Video processing streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(CvCamera(PiCamera())),
+    return Response(gen(CvCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
