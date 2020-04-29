@@ -11,9 +11,14 @@ class CvCamera(BaseCamera):
     def frames():
         with PiCamera() as camera:
             # initialize the camera and grab a reference to the raw camera capture
-            camera.resolution = (640, 480)
-            camera.framerate = 32
-            rawCapture = PiRGBArray(camera, size=(640, 480))
+            # camera.resolution = (640, 480)
+            camera.resolution = (1280, 720)
+            camera.framerate = 90
+            camera.rotation = 180
+            camera.brightness = 100  # integer between 0 and 100
+            camera.contrast = 0  # integer between -100 and 100
+
+            rawCapture = PiRGBArray(camera, size=(1280, 720))
 
             # let camera warm up
             time.sleep(1)
@@ -24,9 +29,9 @@ class CvCamera(BaseCamera):
                 raw_image = frame.array
 
                 # Do image processing
-                cv2_image = cv2.rotate(raw_image, cv2.ROTATE_180)
+                # cv2_image = cv2.rotate(raw_image, cv2.ROTATE_180)
 
-                _, processed_image = cv2.imencode('.jpeg', cv2_image)
+                _, processed_image = cv2.imencode('.jpeg', raw_image)
                 yield processed_image.tostring()
 
                 # clear the stream in preparation for the next frame
