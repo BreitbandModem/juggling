@@ -185,7 +185,8 @@ class CvCamera(BaseCamera):
             # camera.resolution = (640, 480)
             camera.resolution = (1280, 720)
             camera.framerate = 90
-            camera.rotation = 180
+            # camera.rotation = 180
+            camera.vflip = True
             camera.brightness = 75  # integer between 0 and 100
             camera.contrast = 30  # integer between -100 and 100
 
@@ -199,11 +200,14 @@ class CvCamera(BaseCamera):
                 # grab the raw NumPy array representing the image
                 raw_image = frame.array
 
-                # Do image processing
-                frame = Detector.process_frame(frame)
+                # crop region of interest (green-screen)
+                raw_image = raw_image[0:720, 300:1050]
 
-                _, processed_image = cv2.imencode('.jpeg', raw_image)
-                yield processed_image.tostring()
+                # Do image processing
+                processed_image = Detector.process_frame(raw_image)
+
+                _, frame = cv2.imencode('.jpeg', processed_image)
+                yield frame.tostring()
 
                 # clear the stream in preparation for the next frame
                 rawCapture.truncate(0)
