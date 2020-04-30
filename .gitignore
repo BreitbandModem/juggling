@@ -1,4 +1,5 @@
 videos/
+logs/
 __pycache__/
 *.img
 *.jpg
