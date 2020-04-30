@@ -5,8 +5,18 @@ from base_camera import BaseCamera
 
 
 class PiCamera(BaseCamera):
-    @staticmethod
-    def frames():
+
+    def __init__(self, app):
+        """Simple Picamera implementation."""
+        super().__init__(app)
+        self.app.logger.info("Initializing picamera camera.")
+
+        self.start_recording()
+
+    def set_brightness(self, brightness):
+        self.app.logger.warning("Picamera Camera does not support brightness.")
+
+    def frames(self):
         with picamera.PiCamera() as camera:
             # let camera warm up
             time.sleep(2)
