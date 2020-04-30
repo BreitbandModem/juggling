@@ -16,9 +16,16 @@ def index():
     """Video streaming home page."""
     # Catch ajax request with form data
     if request.method == 'POST':
-        brightness = request.form['brightness']
-        app.logger.info('Form brightness submitted: %s', brightness)
-        camera.set_brightness(brightness)
+
+        brightness = request.form.get('brightness')
+        if brightness is not None:
+            app.logger.info('Form brightness submitted: %s', brightness)
+            camera.set_brightness(brightness)
+
+        input_selection = request.form.get('inputSelection')
+        if input_selection is not None:
+            app.logger.info('Form input selection: %s', input_selection)
+
     return render_template('index.html')
 
 
@@ -44,7 +51,7 @@ if __name__ == '__main__':
     app.logger.info('Hello Logger')
 
     # Init default Camera (cv2+picamera)
-    camera = CvCamera(app)
+    camera = MockCamera(app)
 
     # Init Flask (setting debug=True leads to camera failure on raspberry pi: out of resources)
     app.run(host='0.0.0.0', threaded=True, debug=False)

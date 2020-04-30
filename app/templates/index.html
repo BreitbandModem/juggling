@@ -9,7 +9,11 @@
 <img src="{{ url_for('video_feed') }}">
 <form id="calibrate_form">
     <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness"></p>
-    <p><input type = "submit" value = "Apply" /></p>
+    <select id="inputSelection">
+        <option value="mock" {{ mock_selected }}>Mock Camera</option>
+        <option value="picam" {{ picam_selected }}>Picam</option>
+        <option value="cv2cam" {{cv2cam_selected }}>Processed Picam</option>
+    </select>
 </form>
 </body>
 </html>

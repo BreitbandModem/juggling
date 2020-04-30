@@ -1,21 +1,22 @@
 $(document).ready(function() {
-    $('#brightness').on('change', function(event) {
+    $('#inputSelection').on('change', function(event) {
+        alert( this.value );
         $.ajax({
             data :
                 {
-		    brightness : $('#brightness').val() 
+		            inputSelection : this.value
                 },
                 type : 'POST',
                 url : '/'
         });
         event.preventDefault();
     });
-	
-    $('#calibrate_form').on('submit', function(event) {
+
+    $('#brightness').on('change', function(event) {
         $.ajax({
             data :
                 {
-                    brightness : $('#brightness').val()
+		            brightness : this.value
                 },
                 type : 'POST',
                 url : '/'
