@@ -4,7 +4,7 @@ import picamera
 from base_camera import BaseCamera
 
 
-class PiCamera(BaseCamera):
+class RaspiCamera(BaseCamera):
 
     def __init__(self, app):
         """Simple Picamera implementation."""

@@ -3,7 +3,7 @@ import logging
 from flask import Flask, render_template, Response, request
 
 # Import different camera sources
-from camera_pi import PiCamera
+from camera_pi import RaspiCamera
 from camera_mock import MockCamera
 from image_processing import CvCamera
 
