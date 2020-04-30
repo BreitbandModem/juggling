@@ -1,13 +1,15 @@
 <html>
-  <head>
+<head>
     <title>Video Streaming Demonstration</title>
-  </head>
-  <body>
-    <h1>Video Streaming</h1>
-    <img src="{{ url_for('video_feed') }}">
-    <form action = "{{ url_for('index') }}" method = "POST">
-      <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness" name="brightness"></p>
-      <p><input type = "submit" value = "submit" /></p>
-    </form>
-  </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='index.js')}}"></script>
+</head>
+<body>
+<h1>Video Streaming</h1>
+<img src="{{ url_for('video_feed') }}">
+<form id="calibrate_form">
+    <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness"></p>
+    <p><input type = "submit" value = "Apply" /></p>
+</form>
+</body>
 </html>

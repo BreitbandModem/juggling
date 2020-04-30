@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import logging
 from logging.handlers import RotatingFileHandler
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, jsonify
 
 # Import different camera sources
 from camera_pi import PiCamera
@@ -16,8 +16,8 @@ camera = None
 def index():
     """Video streaming home page."""
     if request.method == 'POST':
-        param = request.form
-        app.logger.info('Form submitted: %s', param)
+        brightness = request.form['brightness']
+        app.logger.info('Form brightness submitted: %s', brightness)
     return render_template('index.html')
 
 
