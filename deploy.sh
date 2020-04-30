@@ -33,6 +33,7 @@ if [ $DEBUG -eq 0 ]; then
     -p 80:5000 \
     --device /dev/vchiq \
     -v $PWD/app:/usr/src/app \
+    -v $PWD/logs:/logs \
     --name $containerName \
     $imageName \
     /usr/src/app/app.py
@@ -42,6 +43,7 @@ else
     -p 80:5000 \
     --device /dev/vchiq \
     -v $PWD/app:/usr/src/app \
+    -v $PWD/logs:/logs \
     --name $containerName \
     $imageName \
     /usr/src/app/app.py

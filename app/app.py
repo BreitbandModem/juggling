@@ -1,16 +1,16 @@
 #!/usr/bin/env python
-from importlib import import_module
-import os
-from flask import Flask, render_template, Response
+import logging
+from logging.handlers import RotatingFileHandler
+from flask import Flask, render_template, Response, request
 
 
 # Raspberry Pi camera module (requires picamera package)
 from camera_pi import PiCamera
-
-# Opencv camera module
+from camera_mock import MockCamera
 from image_processing import CvCamera
 
 app = Flask(__name__)
+camera = None
 
 
 @app.route('/')
@@ -30,9 +30,18 @@ def gen(camera):
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(CvCamera()),
+    return Response(gen(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', threaded=True)
+    # Init Logger
+    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(filename='/logs/app.log', level=logging.DEBUG)
+    app.logger.info('Hello Logger')
+
+    # Init default Camera (cv2+picamera)
+    camera = MockCamera()
+
+    # Init Flask
+    app.run(host='0.0.0.0', threaded=True, debug=True)

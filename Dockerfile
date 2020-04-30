@@ -9,5 +9,7 @@ RUN apt-get update; \
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir --extra-index-url=https://www.piwheels.org/simple -r requirements.txt
 
+RUN mkdir /logs
+
 ENTRYPOINT ["python3"]
 CMD ["app.py"]
