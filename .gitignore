@@ -2,6 +2,5 @@ videos/
 logs/
 __pycache__/
 *.img
-*.jpg
 .idea
 *.DS_Store
