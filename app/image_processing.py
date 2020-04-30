@@ -197,7 +197,7 @@ class CvCamera(BaseCamera):
 
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)
-        self.camera.brightness = brightness
+        self.camera.brightness = int(brightness)
 
     def frames(self):
         rawCapture = PiRGBArray(self.camera, size=(1280, 720))
