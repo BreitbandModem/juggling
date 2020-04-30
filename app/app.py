@@ -44,7 +44,7 @@ if __name__ == '__main__':
     app.logger.info('Hello Logger')
 
     # Init default Camera (cv2+picamera)
-    camera = MockCamera(app)
+    camera = CvCamera(app)
 
-    # Init Flask
-    app.run(host='0.0.0.0', threaded=True, debug=True)
+    # Init Flask (setting debug=True leads to camera failure on raspberry pi: out of resources)
+    app.run(host='0.0.0.0', threaded=True, debug=False)
