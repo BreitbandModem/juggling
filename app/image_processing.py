@@ -178,36 +178,46 @@ class Detector(Processor):
 
 
 class CvCamera(BaseCamera):
-    @staticmethod
-    def frames():
-        with PiCamera() as camera:
-            # initialize the camera and grab a reference to the raw camera capture
-            # camera.resolution = (640, 480)
-            camera.resolution = (1280, 720)
-            camera.framerate = 90
-            # camera.rotation = 180
-            camera.vflip = True
-            camera.brightness = 75  # integer between 0 and 100
-            camera.contrast = 30  # integer between -100 and 100
 
-            rawCapture = PiRGBArray(camera, size=(1280, 720))
+    def __init__(self, app):
+        """Camera implementation that captures frames from the picamera and applies opencv image processing on the fly."""
+        super().__init__(app)
+        self.app.logger.info("Initializing opencv + picamera.")
 
-            # let camera warm up
-            time.sleep(1)
+        # initialize the camera
+        self.camera = PiCamera()
+        self.camera.resolution = (1280, 720)
+        self.camera.framerate = 90
+        self.camera.vflip = True
+        self.camera.brightness = 75  # integer between 0 and 100
+        self.camera.contrast = 30  # integer between -100 and 100
+        # camera.rotation = 180
 
-            # capture frames from the camera
-            for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-                # grab the raw NumPy array representing the image
-                raw_image = frame.array
+        self.start_recording()
 
-                # crop region of interest (green-screen)
-                raw_image = raw_image[0:720, 300:1050]
+    def set_brightness(self, brightness):
+        self.app.logger.info("Setting picamera brightness to " + brightness)
+        self.camera.brightness = brightness
 
-                # Do image processing
-                processed_image = Detector.process_frame(raw_image)
+    def frames(self):
+        rawCapture = PiRGBArray(self.camera, size=(1280, 720))
 
-                _, frame = cv2.imencode('.jpeg', processed_image)
-                yield frame.tostring()
+        # let camera warm up
+        time.sleep(1)
 
-                # clear the stream in preparation for the next frame
-                rawCapture.truncate(0)
+        # capture frames from the camera
+        for frame in self.camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+            # grab the raw NumPy array representing the image
+            raw_image = frame.array
+
+            # crop region of interest (green-screen)
+            raw_image = raw_image[0:720, 300:1050]
+
+            # Do image processing
+            processed_image = Detector.process_frame(raw_image)
+
+            _, frame = cv2.imencode('.jpeg', processed_image)
+            yield frame.tostring()
+
+            # clear the stream in preparation for the next frame
+            rawCapture.truncate(0)
