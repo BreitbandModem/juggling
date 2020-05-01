@@ -75,7 +75,7 @@ class BaseCamera(object):
 
     def stop_recording(self):
         """Stop background thread and close camera."""
-        self.thread.do_run = False
+        self.do_run = False
         self.close_camera()
 
     @abc.abstractmethod
