@@ -8,8 +8,9 @@ $(document).ready(function() {
                 type : 'POST',
                 url : '{{ url_for('input_selection') }}'
         }).done(function(data){
-            $('#video_feed').reload()
-        };
+            d = new Date();
+            $('#video_feed').attr("src", "/video_feed?"+d.getTime());
+	});
         event.preventDefault();
     });
 
