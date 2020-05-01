@@ -52,7 +52,7 @@ def vflip():
         app.logger.info('vflip: '+vflip_val)
         if vflip_val is not None:
             app.logger.info('Form brightness submitted: %s', vflip_val)
-            camera.set_vflip(vflip_val)
+            camera.set_vflip(vflip_val == 'true')
 
     return {'brightness': vflip_val}
 
