@@ -7,7 +7,9 @@ $(document).ready(function() {
                 },
                 type : 'POST',
                 url : '{{ url_for('input_selection') }}'
-        });
+        }).done(function(data){
+            $('#video_feed').reload()
+        };
         event.preventDefault();
     });
 

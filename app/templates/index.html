@@ -11,7 +11,7 @@
 </head>
 <body>
 <h1>Video Streaming</h1>
-<img src="{{ url_for('video_feed') }}">
+<img id="video_feed" src="{{ url_for('video_feed') }}">
 <form id="calibrate_form">
     <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness"></p>
     <select id="inputSelection">
