@@ -55,6 +55,7 @@ class BaseCamera(object):
         app.logger.info("Initializing base camera class")
 
         self.thread = None  # background thread that reads frames from camera
+        self.do_run = True  # Signal to keep recording
         self.frame = None  # current frame is stored here by background thread
         self.last_access = 0  # time of last client access to the camera
         self.event = CameraEvent()
@@ -66,7 +67,6 @@ class BaseCamera(object):
 
             # start background frame thread
             self.thread = threading.Thread(target=self._thread)
-            self.thread.do_run = True
             self.thread.start()
 
             # wait until frames are available
@@ -117,8 +117,7 @@ class BaseCamera(object):
                 break
 
             # End loop when do_run flag is set to False
-            t = threading.currentThread()
-            if getattr(t, "do_run", False):
+            if not self.do_run:
                 break
 
         self.thread = None
