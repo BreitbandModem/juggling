@@ -1,3 +1,7 @@
+function updateBrightnessLabel(value) {
+    $('#brightnessLabel').html(value);
+}
+
 $(document).ready(function() {
     $('#inputSelection').on('change', function(event) {
         $.ajax({
@@ -23,6 +27,16 @@ $(document).ready(function() {
                 type : 'POST',
                 url : '{{ url_for('brightness') }}'
         });
-        event.preventDefault();
+    });
+
+    $('#vflip').on('change', function(event) {
+        $.ajax({
+            data :
+                {
+		            vflip : this.checked
+                },
+                type : 'POST',
+                url : '{{ url_for('vflip') }}'
+        });
     });
 });

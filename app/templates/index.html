@@ -10,15 +10,20 @@
     {% endblock %}
 </head>
 <body>
-<h1>Video Streaming</h1>
-<img id="video_feed" src="{{ url_for('video_feed') }}">
-<form id="calibrate_form">
-    <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness"></p>
+<h1>Jugging CV</h1>
+<p>Select camera input
     <select id="inputSelection">
         <option value="0" {{ selected_input[0] }}>Mock Camera</option>
         <option value="1" {{ selected_input[1] }}>Picam</option>
         <option value="2" {{ selected_input[2] }}>Processed Picam</option>
     </select>
-</form>
+</p>
+<img id="video_feed" src="{{ url_for('video_feed') }}">
+<div>
+    <span>Brightness: <span id="brightnessLabel">50</span></span>
+</div>
+<input type="range" min="0" max="100" value="50" class="slider" id="brightness" oninput="console.log('hallo'+this.value); updateBrightnessLabel(this.value);">
+<p>Vertical Flip</p>
+<input type="checkbox" id="vflip" name="vflip" value="vflip">
 </body>
 </html>

@@ -89,6 +89,10 @@ class BaseCamera(object):
         """Update the brightness value for the camera."""
 
     @abc.abstractmethod
+    def set_vflip(self, value):
+        """Toggle the vertical flip of the camera image."""
+
+    @abc.abstractmethod
     def frames(self):
         """"Generator that returns frames from the camera."""
 

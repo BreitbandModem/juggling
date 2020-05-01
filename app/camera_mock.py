@@ -17,6 +17,9 @@ class MockCamera(BaseCamera):
     def close_camera(self):
         pass
 
+    def set_vflip(self, value):
+        self.app.logger.warning("Mock Camera does not support vflip.")
+
     def set_brightness(self, brightness):
         self.app.logger.warning("Mock Camera does not support brightness.")
 

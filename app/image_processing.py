@@ -188,7 +188,7 @@ class CvCamera(BaseCamera):
         self.camera = PiCamera()
         self.camera.resolution = (1280, 720)
         self.camera.framerate = 90
-        self.camera.vflip = True
+        # self.camera.vflip = True
         self.camera.brightness = 75  # integer between 0 and 100
         self.camera.contrast = 30  # integer between -100 and 100
         # camera.rotation = 180
@@ -197,6 +197,9 @@ class CvCamera(BaseCamera):
 
     def close_camera(self):
         self.camera.close()
+
+    def set_vflip(self, value):
+        self.camera.vflip = value
 
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)

@@ -30,7 +30,7 @@ def index():
 
 @app.route('/brightness', methods=['POST'])
 def brightness():
-    """Video streaming home page."""
+    """Set brightness value for camera."""
     # Catch ajax request with form data
     brightness_val = 'error'
     if request.method == 'POST':
@@ -42,9 +42,24 @@ def brightness():
     return {'brightness': brightness_val}
 
 
+@app.route('/vflip', methods=['POST'])
+def vflip():
+    """Toggle vertical flipping of camera image."""
+    # Catch ajax request with form data
+    vflip_val = 'error'
+    if request.method == 'POST':
+        vflip_val = request.form.get('vflip')
+        app.logger.info('vflip: '+vflip_val)
+        if vflip_val is not None:
+            app.logger.info('Form brightness submitted: %s', vflip_val)
+            camera.set_vflip(vflip_val)
+
+    return {'brightness': vflip_val}
+
+
 @app.route('/input-selection', methods=['POST'])
 def input_selection():
-    """Video streaming home page."""
+    """Select Camera image to display."""
     # Catch ajax request with form data
     input_select = request.form.get('inputSelection')
     app.logger.info('Form input selection: %s', input_select)
