@@ -77,6 +77,8 @@ class BaseCamera(object):
         """Stop background thread and close camera."""
         self.do_run = False
         self.close_camera()
+        # wait for camera cooldown
+        time.sleep(1)
 
     @abc.abstractmethod
     def close_camera(self):
