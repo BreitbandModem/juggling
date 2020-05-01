@@ -66,11 +66,21 @@ class BaseCamera(object):
 
             # start background frame thread
             self.thread = threading.Thread(target=self._thread)
+            self.thread.do_run = True
             self.thread.start()
 
             # wait until frames are available
             while self.get_frame() is None:
                 time.sleep(0)
+
+    def stop_recording(self):
+        """Stop background thread and close camera."""
+        self.thread.do_run = False
+        self.close_camera()
+
+    @abc.abstractmethod
+    def close_camera(self):
+        """Close the camera."""
 
     @abc.abstractmethod
     def set_brightness(self):
@@ -105,4 +115,10 @@ class BaseCamera(object):
                 frames_iterator.close()
                 self.app.logger.info('Stopping camera thread due to inactivity.')
                 break
+
+            # End loop when do_run flag is set to False
+            t = threading.currentThread()
+            if getattr(t, "do_run", False):
+                break
+
         self.thread = None

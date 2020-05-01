@@ -11,23 +11,27 @@ class RaspiCamera(BaseCamera):
         super().__init__(app)
         self.app.logger.info("Initializing picamera camera.")
 
+        self.camera = picamera.PiCamera()
+
         self.start_recording()
+
+    def close_camera(self):
+        self.camera.close()
 
     def set_brightness(self, brightness):
         self.app.logger.warning("Picamera Camera does not support brightness.")
 
     def frames(self):
-        with picamera.PiCamera() as camera:
-            # let camera warm up
-            time.sleep(2)
+        # let camera warm up
+        time.sleep(1)
 
-            stream = io.BytesIO()
-            for _ in camera.capture_continuous(stream, 'jpeg',
-                                                 use_video_port=True):
-                # return current frame
-                stream.seek(0)
-                yield stream.read()
+        stream = io.BytesIO()
+        for _ in self.camera.capture_continuous(stream, 'jpeg',
+                                             use_video_port=True):
+            # return current frame
+            stream.seek(0)
+            yield stream.read()
 
-                # reset stream for next frame
-                stream.seek(0)
-                stream.truncate()
+            # reset stream for next frame
+            stream.seek(0)
+            stream.truncate()

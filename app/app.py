@@ -54,6 +54,7 @@ def input_selection():
         app.logger.info('my int: %d', input)
 
         global camera
+        camera.stop_recording()
         camera = {
             Input.MOCK: lambda: MockCamera(app),
             Input.PICAM: lambda: RaspiCamera(app),

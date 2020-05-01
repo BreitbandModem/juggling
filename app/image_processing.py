@@ -195,6 +195,9 @@ class CvCamera(BaseCamera):
 
         self.start_recording()
 
+    def close_camera(self):
+        self.camera.close()
+
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)
         self.camera.brightness = int(brightness)

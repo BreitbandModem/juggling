@@ -14,6 +14,9 @@ class MockCamera(BaseCamera):
 
         self.start_recording()
 
+    def close_camera(self):
+        pass
+
     def set_brightness(self, brightness):
         self.app.logger.warning("Mock Camera does not support brightness.")
 
