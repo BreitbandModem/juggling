@@ -2,7 +2,12 @@
 <head>
     <title>Video Streaming Demonstration</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
+    <!--<script src="{{url_for('static', filename='index.js')}}"></script>-->
+    {% block javascript %}
+        <script type="text/javascript">
+            {% include "index.js" %}
+        </script>
+    {% endblock %}
 </head>
 <body>
 <h1>Video Streaming</h1>
@@ -10,9 +15,9 @@
 <form id="calibrate_form">
     <p>Brightness<input type="range" min="0" max="100" value="50" class="slider" id="brightness"></p>
     <select id="inputSelection">
-        <option value="mock" {{ mock_selected }}>Mock Camera</option>
-        <option value="picam" {{ picam_selected }}>Picam</option>
-        <option value="cv2cam" {{cv2cam_selected }}>Processed Picam</option>
+        <option value="0" {{ selected_input[0] }}>Mock Camera</option>
+        <option value="1" {{ selected_input[1] }}>Picam</option>
+        <option value="2" {{ selected_input[2] }}>Processed Picam</option>
     </select>
 </form>
 </body>

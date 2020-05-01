@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging
+from enum import IntEnum
 from flask import Flask, render_template, Response, request
 
 # Import different camera sources
@@ -7,26 +8,62 @@ from camera_pi import RaspiCamera
 from camera_mock import MockCamera
 from image_processing import CvCamera
 
+
+class Input(IntEnum):
+    MOCK = 0
+    PICAM = 1
+    CV2PICAM = 2
+
+
 app = Flask(__name__)
 camera = None
+selected_input = {Input.MOCK: 'selected=selected',
+                  Input.PICAM: '',
+                  Input.CV2PICAM: ''}
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
     """Video streaming home page."""
+    return render_template('index.html', selected_input=selected_input)
+
+
+@app.route('/brightness', methods=['POST'])
+def brightness():
+    """Video streaming home page."""
     # Catch ajax request with form data
+    brightness_val = 'error'
     if request.method == 'POST':
+        brightness_val = request.form.get('brightness')
+        if brightness_val is not None:
+            app.logger.info('Form brightness submitted: %s', brightness_val)
+            camera.set_brightness(brightness_val)
 
-        brightness = request.form.get('brightness')
-        if brightness is not None:
-            app.logger.info('Form brightness submitted: %s', brightness)
-            camera.set_brightness(brightness)
+    return {'brightness': brightness_val}
 
-        input_selection = request.form.get('inputSelection')
-        if input_selection is not None:
-            app.logger.info('Form input selection: %s', input_selection)
 
-    return render_template('index.html')
+@app.route('/input-selection', methods=['POST'])
+def input_selection():
+    """Video streaming home page."""
+    # Catch ajax request with form data
+    input_select = request.form.get('inputSelection')
+    app.logger.info('Form input selection: %s', input_select)
+
+    try:
+        input = int(input_select)
+        app.logger.info('my int: %d', input)
+
+        global camera
+        camera = {
+            Input.MOCK: lambda: MockCamera(app),
+            Input.PICAM: lambda: RaspiCamera(app),
+            Input.CV2PICAM: lambda: CvCamera(app)
+        }[input]()
+
+    except ValueError:
+        input_select = 'error'
+
+    return {'inputSelection': input_select}
 
 
 def gen(camera):

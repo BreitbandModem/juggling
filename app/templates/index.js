@@ -1,13 +1,12 @@
 $(document).ready(function() {
     $('#inputSelection').on('change', function(event) {
-        alert( this.value );
         $.ajax({
             data :
                 {
 		            inputSelection : this.value
                 },
                 type : 'POST',
-                url : '/'
+                url : '{{ url_for('input_selection') }}'
         });
         event.preventDefault();
     });
@@ -19,7 +18,7 @@ $(document).ready(function() {
 		            brightness : this.value
                 },
                 type : 'POST',
-                url : '/'
+                url : '{{ url_for('brightness') }}'
         });
         event.preventDefault();
     });
