@@ -204,8 +204,12 @@ class CvCamera(BaseCamera):
         self.camera.vflip = value
 
     def crop(self, crop_left, crop_right):
-        self.cropX[0] = self.res[0] * (crop_left / 100)
-        self.cropX[1] = self.res[0] - (self.res[0] * (crop_right / 100))
+        self.app.logger.info("Setting new crop values.")
+
+        self.cropX[0] = int( self.res[0] * (crop_left / 100) )
+        self.cropX[1] = int( self.res[0] * (crop_right / 100) )
+
+        self.app.logger.info("New crop values: %d - %d", self.cropX[0], self.cropX[1])
 
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)

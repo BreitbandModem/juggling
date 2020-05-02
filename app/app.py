@@ -69,7 +69,7 @@ def crop():
         if crop_left is not None and crop_right is not None:
             app.logger.info('cropping: ' + crop_left + ' - ' + crop_right)
 
-            camera.crop(fload(crop_left), float(crop_right))
+            camera.crop(float(crop_left), float(crop_right))
 
     return {'crop_right': crop_right, 'crop_left': crop_left}
 
