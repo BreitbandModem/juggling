@@ -71,7 +71,7 @@ def crop():
 
             camera.crop(float(crop_left), float(crop_right))
 
-    return {'crop_right': crop_right, 'crop_left': crop_left}
+    return {'crop_right': crop_right, 'crop_left': crop_left, 'videoWidth': camera.get_width()}
 
 
 @app.route('/input-selection', methods=['POST'])

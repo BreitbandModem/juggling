@@ -26,7 +26,8 @@ $(document).ready(function() {
                 url : '{{ url_for('crop') }}'
         }).done(function(data){
             // offset video to the right according to the position of the left slide handle
-            $('#videoFeed').css('margin-left', positions[0] + 'px');
+            offset = data.videoWidth * (data.crop_left / 100);
+            $('#videoFeed').css('margin-left', offset + 'px');
         });
     });
 
