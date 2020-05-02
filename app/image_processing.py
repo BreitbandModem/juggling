@@ -223,7 +223,8 @@ class CvCamera(BaseCamera):
             raw_image = frame.array
 
             # crop region of interest (green-screen)
-            raw_image = raw_image[ 0:self.cropX[0], 300:self.cropX[1] ]
+            # roi = img[y1:y2, x1:x2]
+            raw_image = raw_image[ 0:self.res[1], self.cropX[0]:self.cropX[1] ]
 
             # Do image processing
             processed_image = Detector.process_frame(raw_image)
