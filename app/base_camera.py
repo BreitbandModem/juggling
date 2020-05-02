@@ -97,6 +97,10 @@ class BaseCamera(object):
         """Crop the camera image."""
 
     @abc.abstractmethod
+    def get_width(self):
+        """Get the width of the camera image."""
+
+    @abc.abstractmethod
     def frames(self):
         """"Generator that returns frames from the camera."""
 

@@ -25,7 +25,7 @@ selected_input = {Input.MOCK: 'selected=selected',
 @app.route('/', methods=['GET'])
 def index():
     """Video streaming home page."""
-    return render_template('index.html', selected_input=selected_input)
+    return render_template('index.html', selected_input=selected_input, video_width=camera.get_width())
 
 
 @app.route('/brightness', methods=['POST'])
@@ -77,6 +77,8 @@ def crop():
 @app.route('/input-selection', methods=['POST'])
 def input_selection():
     """Select Camera image to display."""
+    global camera
+
     # Catch ajax request with form data
     input_select = request.form.get('inputSelection')
     app.logger.info('Form input selection: %s', input_select)
@@ -85,7 +87,6 @@ def input_selection():
         input = int(input_select)
         app.logger.info('my int: %d', input)
 
-        global camera
         camera.stop_recording()
         camera = {
             Input.MOCK: lambda: MockCamera(app),
@@ -96,7 +97,7 @@ def input_selection():
     except ValueError:
         input_select = 'error'
 
-    return {'inputSelection': input_select}
+    return {'inputSelection': input_select, 'videoWidth': camera.get_width()}
 
 
 def gen(camera):

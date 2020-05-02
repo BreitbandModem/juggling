@@ -4,12 +4,6 @@ function updateBrightnessLabel(value) {
 
 $(document).ready(function() {
 
-    $('#videoFeed').on('load', function() {
-        videoWidth = this.width;
-        console.log('Detected video width: '+ videoWidth);
-        $('#cropSlider').width(videoWidth);
-    });
-
     var cropSlider = document.getElementById('cropSlider');
 
     noUiSlider.create(cropSlider, {
@@ -44,6 +38,7 @@ $(document).ready(function() {
         }).done(function(data){
             d = new Date();
             $('#videoFeed').attr("src", "/video_feed?"+d.getTime());
+            $('#cropSlider').width(data.videoWidth);
 	    });
         event.preventDefault();
     });

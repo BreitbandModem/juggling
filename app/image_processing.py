@@ -211,6 +211,9 @@ class CvCamera(BaseCamera):
 
         self.app.logger.info("New crop values: %d - %d", self.cropX[0], self.cropX[1])
 
+    def get_width(self):
+        return self.res[0]
+
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)
         self.camera.brightness = int(brightness)
