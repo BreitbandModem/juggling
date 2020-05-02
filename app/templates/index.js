@@ -24,6 +24,9 @@ $(document).ready(function() {
                 },
                 type : 'POST',
                 url : '{{ url_for('crop') }}'
+        }).done(function(data){
+            // offset video to the right according to the position of the left slide handle
+            $('#videoFeed').css('margin-left', positions[0] + 'px');
         });
     });
 
@@ -36,8 +39,11 @@ $(document).ready(function() {
                 type : 'POST',
                 url : '{{ url_for('input_selection') }}'
         }).done(function(data){
+            // attach current date to image source to force reload instead of cache
             d = new Date();
             $('#videoFeed').attr("src", "/video_feed?"+d.getTime());
+
+            // adapt the slider width to the new camera source image size
             $('#cropSlider').width(data.videoWidth);
 	    });
         event.preventDefault();
