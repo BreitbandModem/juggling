@@ -63,8 +63,8 @@ def crop():
     crop_left = None
     crop_right = None
     if request.method == 'POST':
-        crop_left = request.form.get('crop_left')
-        crop_right = request.form.get('crop_left')
+        crop_left = request.form.get('cropLeft')
+        crop_right = request.form.get('cropRight')
 
         if crop_left is not None and crop_right is not None:
             app.logger.info('cropping: ' + crop_left + ' - ' + crop_right)

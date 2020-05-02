@@ -22,6 +22,15 @@ $(document).ready(function() {
     });
     cropSlider.noUiSlider.on('change', function(values, handle, unencoded, tap, positions, noUiSlider) {
         console.log('slider: '+values);
+        $.ajax({
+            data :
+                {
+		            cropLeft : values[0],
+		            cropRight : values[1]
+                },
+                type : 'POST',
+                url : '{{ url_for('crop') }}'
+        });
     });
 
     $('#inputSelection').on('change', function(event) {
@@ -34,7 +43,7 @@ $(document).ready(function() {
                 url : '{{ url_for('input_selection') }}'
         }).done(function(data){
             d = new Date();
-            $('#video_feed').attr("src", "/video_feed?"+d.getTime());
+            $('#videoFeed').attr("src", "/video_feed?"+d.getTime());
 	    });
         event.preventDefault();
     });
