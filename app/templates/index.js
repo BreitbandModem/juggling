@@ -3,6 +3,27 @@ function updateBrightnessLabel(value) {
 }
 
 $(document).ready(function() {
+
+    $('#videoFeed').on('load', function() {
+        videoWidth = this.width;
+        console.log('Detected video width: '+ videoWidth);
+        $('#cropSlider').width(videoWidth);
+    });
+
+    var cropSlider = document.getElementById('cropSlider');
+
+    noUiSlider.create(cropSlider, {
+        start: [0, 100],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 100
+        }
+    });
+    cropSlider.noUiSlider.on('change', function(values, handle, unencoded, tap, positions, noUiSlider) {
+        console.log('slider: '+values);
+    });
+
     $('#inputSelection').on('change', function(event) {
         $.ajax({
             data :
@@ -14,7 +35,7 @@ $(document).ready(function() {
         }).done(function(data){
             d = new Date();
             $('#video_feed').attr("src", "/video_feed?"+d.getTime());
-	});
+	    });
         event.preventDefault();
     });
 

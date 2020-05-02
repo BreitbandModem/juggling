@@ -4,10 +4,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--<script src="{{url_for('static', filename='index.js')}}"></script>-->
     {% block javascript %}
+        <script type="text/javascript" src="{{ url_for('static', filename='nouislider.min.js') }}"></script>
         <script type="text/javascript">
             {% include "index.js" %}
         </script>
     {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='nouislider.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
 <h1>Jugging CV</h1>
@@ -18,7 +22,10 @@
         <option value="2" {{ selected_input[2] }}>Processed Picam</option>
     </select>
 </p>
-<img id="video_feed" src="{{ url_for('video_feed') }}">
+
+<div id="cropSlider" class="crop-slider"></div>
+
+<img id="videoFeed" src="{{ url_for('video_feed') }}">
 <div>
     <span>Brightness: <span id="brightnessLabel">50</span></span>
 </div>
