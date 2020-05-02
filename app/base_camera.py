@@ -93,6 +93,10 @@ class BaseCamera(object):
         """Toggle the vertical flip of the camera image."""
 
     @abc.abstractmethod
+    def crop(self, crop_left, crop_right):
+        """Crop the camera image."""
+
+    @abc.abstractmethod
     def frames(self):
         """"Generator that returns frames from the camera."""
 

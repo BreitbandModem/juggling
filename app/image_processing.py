@@ -185,8 +185,10 @@ class CvCamera(BaseCamera):
         self.app.logger.info("Initializing opencv + picamera.")
 
         # initialize the camera
+        self.res = [1280, 720]
+        self.cropX = [0, 1280]
         self.camera = PiCamera()
-        self.camera.resolution = (1280, 720)
+        self.camera.resolution = (self.res[0], self.res[1])
         self.camera.framerate = 90
         # self.camera.vflip = True
         self.camera.brightness = 75  # integer between 0 and 100
@@ -201,12 +203,16 @@ class CvCamera(BaseCamera):
     def set_vflip(self, value):
         self.camera.vflip = value
 
+    def crop(self, crop_left, crop_right):
+        self.cropX[0] = self.res[0] * (crop_left / 100)
+        self.cropX[1] = self.res[0] - (self.res[0] * (crop_right / 100))
+
     def set_brightness(self, brightness):
         self.app.logger.info("Setting picamera brightness to " + brightness)
         self.camera.brightness = int(brightness)
 
     def frames(self):
-        rawCapture = PiRGBArray(self.camera, size=(1280, 720))
+        rawCapture = PiRGBArray(self.camera, size=(self.res[0], self.res[1]))
 
         # let camera warm up
         time.sleep(1)
@@ -217,7 +223,7 @@ class CvCamera(BaseCamera):
             raw_image = frame.array
 
             # crop region of interest (green-screen)
-            raw_image = raw_image[0:720, 300:1050]
+            raw_image = raw_image[ 0:self.cropX[0], 300:self.cropX[1] ]
 
             # Do image processing
             processed_image = Detector.process_frame(raw_image)

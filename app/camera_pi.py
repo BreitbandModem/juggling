@@ -21,6 +21,9 @@ class RaspiCamera(BaseCamera):
     def set_vflip(self, value):
         self.camera.vflip = value
 
+    def crop(self, crop_left, crop_right):
+        pass
+
     def set_brightness(self, brightness):
         self.app.logger.warning("Picamera Camera does not support brightness.")
 

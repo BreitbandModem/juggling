@@ -49,12 +49,29 @@ def vflip():
     vflip_val = 'error'
     if request.method == 'POST':
         vflip_val = request.form.get('vflip')
-        app.logger.info('vflip: '+vflip_val)
         if vflip_val is not None:
             app.logger.info('Form brightness submitted: %s', vflip_val)
             camera.set_vflip(vflip_val == 'true')
 
     return {'brightness': vflip_val}
+
+
+@app.route('/crop', methods=['POST'])
+def crop():
+    """Toggle vertical flipping of camera image."""
+    # Catch ajax request with form data
+    crop_left = None
+    crop_right = None
+    if request.method == 'POST':
+        crop_left = request.form.get('crop_left')
+        crop_right = request.form.get('crop_left')
+
+        if crop_left is not None and crop_right is not None:
+            app.logger.info('cropping: ' + crop_left + ' - ' + crop_right)
+
+            camera.crop(crop_left, crop_right)
+
+    return {'crop_right': crop_right, 'crop_left': crop_left}
 
 
 @app.route('/input-selection', methods=['POST'])
