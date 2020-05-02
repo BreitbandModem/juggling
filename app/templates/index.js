@@ -44,6 +44,8 @@ $(document).ready(function() {
             d = new Date();
             $('#videoFeed').attr("src", "/video_feed?"+d.getTime());
 
+            // reset left margin offset for video
+            $('#videoFeed').css('margin-left', '0px');
             // adapt the slider width to the new camera source image size
             $('#cropSlider').width(data.videoWidth);
 	    });
