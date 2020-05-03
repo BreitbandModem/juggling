@@ -34,7 +34,7 @@ if [ $DEBUG -eq 0 ]; then
     --device /dev/vchiq \
     -v $PWD/app:/usr/src/app \
     -v $PWD/logs:/logs \
-    -v $PWD/videos/out \
+    -v $PWD/videos:/out \
     --name $containerName \
     $imageName \
     /usr/src/app/app.py
@@ -45,7 +45,7 @@ else
     --device /dev/vchiq \
     -v $PWD/app:/usr/src/app \
     -v $PWD/logs:/logs \
-    -v $PWD/videos/out \
+    -v $PWD/videos:/out \
     --name $containerName \
     $imageName \
     /usr/src/app/app.py

@@ -238,7 +238,8 @@ class CvCamera(BaseCamera):
             raw_image = frame.array
 
             # Write the frame into the file 'output.avi'
-            self.tape_file.write(raw_image)
+            if self.tape:
+                self.tape_file.write(raw_image)
 
             # crop region of interest (green-screen)
             # roi = img[y1:y2, x1:x2]

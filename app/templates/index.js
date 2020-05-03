@@ -10,10 +10,10 @@ $(document).ready(function() {
             type : 'POST',
             url : '{{ url_for('tape') }}'
         }).done(function(data) {
-            if data.taping {
-                this.css( "background-color", "red");
+            if (data.taping) {
+                $('#tapeButton').css( "background-color", "red");
             } else {
-                this.css( "background-color", "white");
+                $('#tapeButton').css( "background-color", "white");
             }
         });
     });
