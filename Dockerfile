@@ -10,6 +10,7 @@ COPY requirements.txt ./
 RUN pip3 install --no-cache-dir --extra-index-url=https://www.piwheels.org/simple -r requirements.txt
 
 RUN mkdir /logs
+RUN mkdir /out
 
 ENTRYPOINT ["python3"]
 CMD ["app.py"]
