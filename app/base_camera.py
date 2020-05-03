@@ -2,6 +2,7 @@ import abc
 import time
 import threading
 from greenlet import getcurrent as get_ident
+import cv2
 
 
 class CameraEvent(object):
@@ -57,7 +58,10 @@ class BaseCamera(object):
         self.thread = None  # background thread that reads frames from camera
         self.do_run = True  # Signal to keep recording
         self.frame = None  # current frame is stored here by background thread
+        self.res = [128, 128]  # Set the resolution of the camera
         self.last_access = 0  # time of last client access to the camera
+        self.tape = False  # write recording to file
+        self.tape_file = None  # Output stream for taping video
         self.event = CameraEvent()
 
     def start_recording(self):
@@ -104,6 +108,24 @@ class BaseCamera(object):
     def frames(self):
         """"Generator that returns frames from the camera."""
 
+    @abc.abstractmethod
+    def start_tape(self):
+        """"Start taping the camera footage."""
+
+    @abc.abstractmethod
+    def end_tape(self):
+        """"End taping the camera footage."""
+
+    def toggle_tape(self):
+        """"Toggle start and stop of taping the camera footage."""
+        if self.tape:
+            self.end_tape()
+            self.tape = False
+        else:
+            self.start_tape()
+            self.tape = True
+        return self.tape
+
     def get_frame(self):
         """Return the current camera frame."""
         self.last_access = time.time()
@@ -123,9 +145,9 @@ class BaseCamera(object):
             self.event.set()  # send signal to clients
             time.sleep(0)
 
-            # if there hasn't been any clients asking for frames in
-            # the last 10 seconds then stop the thread
-            if time.time() - self.last_access > 10:
+            if time.time() - self.last_access > 10 and not self.tape:
+                # if there hasn't been any clients asking for frames in
+                # the last 10 seconds then stop the thread
                 frames_iterator.close()
                 self.app.logger.info('Stopping camera thread due to inactivity.')
                 break

@@ -200,6 +200,14 @@ class CvCamera(BaseCamera):
     def close_camera(self):
         self.camera.close()
 
+    def start_tape(self):
+        self.tape_file = cv2.VideoWriter('/out/tape.avi',
+                                         cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 90,
+                                         (self.res[0], self.res[1]))
+
+    def end_tape(self):
+        self.tape_file.release()
+
     def set_vflip(self, value):
         self.camera.vflip = value
 
@@ -228,6 +236,9 @@ class CvCamera(BaseCamera):
         for frame in self.camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
             # grab the raw NumPy array representing the image
             raw_image = frame.array
+
+            # Write the frame into the file 'output.avi'
+            self.tape_file.write(raw_image)
 
             # crop region of interest (green-screen)
             # roi = img[y1:y2, x1:x2]

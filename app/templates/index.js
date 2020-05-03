@@ -4,6 +4,20 @@ function updateBrightnessLabel(value) {
 
 $(document).ready(function() {
 
+    $('#tapeButton').on('click', function(event) {
+        $.ajax({
+            data : {},
+            type : 'POST',
+            url : '{{ url_for('tape') }}'
+        }).done(function(data) {
+            if data.taping {
+                this.css( "background-color", "red");
+            } else {
+                this.css( "background-color", "white");
+            }
+        });
+    });
+
     var cropSlider = document.getElementById('cropSlider');
 
     noUiSlider.create(cropSlider, {
@@ -17,13 +31,12 @@ $(document).ready(function() {
     cropSlider.noUiSlider.on('change', function(values, handle, unencoded, tap, positions, noUiSlider) {
         console.log('slider: '+values);
         $.ajax({
-            data :
-                {
+            data : {
 		            cropLeft : values[0],
 		            cropRight : values[1]
                 },
-                type : 'POST',
-                url : '{{ url_for('crop') }}'
+            type : 'POST',
+            url : '{{ url_for('crop') }}'
         }).done(function(data){
             // offset video to the right according to the position of the left slide handle
             offset = data.videoWidth * (data.crop_left / 100);
@@ -33,12 +46,11 @@ $(document).ready(function() {
 
     $('#inputSelection').on('change', function(event) {
         $.ajax({
-            data :
-                {
+            data : {
 		            inputSelection : this.value
                 },
-                type : 'POST',
-                url : '{{ url_for('input_selection') }}'
+            type : 'POST',
+            url : '{{ url_for('input_selection') }}'
         }).done(function(data){
             // attach current date to image source to force reload instead of cache
             d = new Date();
@@ -54,23 +66,21 @@ $(document).ready(function() {
 
     $('#brightness').on('change', function(event) {
         $.ajax({
-            data :
-                {
+            data : {
 		            brightness : this.value
                 },
-                type : 'POST',
-                url : '{{ url_for('brightness') }}'
+            type : 'POST',
+            url : '{{ url_for('brightness') }}'
         });
     });
 
     $('#vflip').on('change', function(event) {
         $.ajax({
-            data :
-                {
+            data : {
 		            vflip : this.checked
                 },
-                type : 'POST',
-                url : '{{ url_for('vflip') }}'
+            type : 'POST',
+            url : '{{ url_for('vflip') }}'
         });
     });
 });

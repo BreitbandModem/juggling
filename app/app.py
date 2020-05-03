@@ -74,6 +74,15 @@ def crop():
     return {'crop_right': crop_right, 'crop_left': crop_left, 'videoWidth': camera.get_width()}
 
 
+@app.route('/tape', methods=['POST'])
+def tape():
+    """Toggle recording of camera image."""
+    # Catch ajax request with form data
+    if request.method == 'POST':
+        taping = camera.toggle_tape()
+    return {'taping': taping}
+
+
 @app.route('/input-selection', methods=['POST'])
 def input_selection():
     """Select Camera image to display."""

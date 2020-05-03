@@ -24,6 +24,12 @@ class RaspiCamera(BaseCamera):
     def crop(self, crop_left, crop_right):
         pass
 
+    def start_tape(self):
+        pass
+
+    def end_tape(self):
+        pass
+
     def get_width(self):
         return 1028
 
