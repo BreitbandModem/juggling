@@ -201,7 +201,7 @@ class CvCamera(BaseCamera):
         self.camera.close()
 
     def start_tape(self):
-        self.camera.start_recording('my_video.h264')
+        self.camera.start_recording('/out/my_video.h264', format='h264', level='4.2')
 
     def end_tape(self):
         self.camera.stop_recording()
