@@ -121,7 +121,10 @@ class BaseCamera(object):
         if self.tape:
             self.end_tape()
             self.tape = False
+            self.do_run = True
+            self.start_recording()
         else:
+            self.do_run = False
             self.start_tape()
             self.tape = True
         return self.tape

@@ -109,10 +109,10 @@ def input_selection():
     return {'inputSelection': input_select, 'videoWidth': camera.get_width()}
 
 
-def gen(camera):
+def gen(cam):
     """Video streaming generator function."""
     while True:
-        frame = camera.get_frame()
+        frame = cam.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
